@@ -12,6 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
+import { useState, useEffect } from 'react'
+import Router from 'next/router'
+import { useUser } from '../lib/hooks'
 
 function Copyright() {
     return (
@@ -60,6 +63,38 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
     const classes = useStyles();
 
+    const [user, { mutate }] = useUser()
+    const [errorMsg, setErrorMsg] = useState('')
+
+    async function onSubmit(e) {
+        e.preventDefault()
+
+        const body = {
+            username: e.currentTarget.email.value,
+            password: e.currentTarget.password.value,
+        }
+
+        console.log(body)
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        })
+
+        if (res.status === 200) {
+            const userObj = await res.json()
+            // set user to useSWR state
+            mutate(userObj)
+        } else {
+            setErrorMsg('Incorrect email or password. Try better!')
+        }
+    }
+
+    useEffect(() => {
+        // redirect to home if user is authenticated
+        if (user) Router.push('/')
+    }, [user])
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline/>
@@ -72,7 +107,8 @@ export default function SignInSide() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    {errorMsg && <p className="error">{errorMsg}</p>}
+                    <form className={classes.form} noValidate onSubmit={onSubmit}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -110,12 +146,12 @@ export default function SignInSide() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link href="/forget-password" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
