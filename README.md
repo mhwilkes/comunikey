@@ -27,11 +27,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## This project is deployed on the Vercel Platform
 
 ### Roadmap
-*[ ] Integration of passport.js for local accounts
-*[ ] Session support for logins
-*[ ] MongoDB database for accounts
-*[ ] Session security with iron and bcryptjs password hashing
-*[ ] Integrate Email campaign with mailgun
-*[ ] Account Features
-*[ ] Profile editing
-*[ ] Email verification, password changes, password resets
+-[ ] Integration of passport.js for local accounts
+-[ ] Session support for logins
+-[ ] MongoDB database for accounts
+-[ ] Session security with iron and bcryptjs password hashing
+-[ ] Integrate Email campaign with mailgun
+-[ ] Account Features
+-[ ] Profile editing
+-[ ] Email verification, password changes, password resets
