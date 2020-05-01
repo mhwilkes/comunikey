@@ -1,5 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+import {useUser} from '../lib/hooks';
+
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -22,19 +24,7 @@ import {mainListItems, secondaryListItems} from '../components/dashboard/listIte
 import Chart from '../components/dashboard/Chart';
 import Deposits from '../components/dashboard/Deposits';
 import Orders from '../components/dashboard/Orders';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Copyright from "../components/Copyright";
 
 const drawerWidth = 240;
 
@@ -118,6 +108,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+
+    const [user] = useUser();
+
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {

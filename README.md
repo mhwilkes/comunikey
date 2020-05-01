@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project!
 
-## Integrations
+Setup with help from /hoangvvo/nextjs-mongodb-app
+
+## Comunikey
+This is a website to facilitate the keyboard community in their crowdsourced manufacturing. The plan is to allow users to get notifications based off of products that are in development, follow products in interest checks, and quickly find information from the community.
+
+## Example Integrations
 
 https://github.com/zeit/next.js/tree/master/examples
 
 ## Getting Started
 
-First, run the development server:
+Running the local server is as simple as utilizing
 
 ```bash
+npm install
 npm run dev
 # or
+yarn install
 yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Learn More
+## This project is deployed on the Vercel Platform
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Roadmap
+*[ ] Integration of passport.js for local accounts
+*[ ] Session support for logins
+*[ ] MongoDB database for accounts
+*[ ] Session security with iron and bcryptjs password hashing
+*[ ] Integrate Email campaign with mailgun
+*[ ] Account Features
+*[ ] Profile editing
+*[ ] Email verification, password changes, password resets

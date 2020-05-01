@@ -12,21 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {useState, useEffect} from 'react'
-import Router from 'next/router'
+import redirectTo from '../lib/redirectTo';
 import {useUser} from '../lib/hooks'
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Box from "@material-ui/core/Box";
+import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,21 +51,22 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
     const classes = useStyles();
 
-    const [user, {mutate}] = useUser()
-    const [errorMsg, setErrorMsg] = useState('')
+    const [user, {mutate}] = useUser();
+    const [errorMsg, setErrorMsg] = useState('');
+    useEffect(() => {
+        // redirect to home if user is authenticated
+        if (user) redirectTo('/');
+    }, [user]);
 
-    async function onSubmit(e) {
-        e.preventDefault()
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const body = {
+            email: e.currentTarget.email.value,
             first_name: e.currentTarget.first_name.value,
             last_name: e.currentTarget.last_name.value,
-            email: e.currentTarget.email.value,
             password: e.currentTarget.password.value,
             contact: e.currentTarget.contact.checked
-        }
-
-        console.log(body)
+        };
 
         if (body.password !== e.currentTarget.repeat_password.value) {
             setErrorMsg(`The passwords don't match`)
@@ -87,22 +77,14 @@ export default function SignUpSide() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body),
-        })
-
+        });
         if (res.status === 201) {
-            const userObj = await res.json()
-            // set user to useSWR state
-            mutate(userObj)
+            const userObj = await res.json();
+            await mutate(userObj);
         } else {
-            setErrorMsg(await res.text())
+            setErrorMsg(await res.text());
         }
-    }
-
-    useEffect(() => {
-        // redirect to home if user is authenticated
-        if (user) Router.push('/')
-    }, [user])
-
+    };
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -116,7 +98,7 @@ export default function SignUpSide() {
                         Sign Up
                     </Typography>
                     {errorMsg && <p className="error">{errorMsg}</p>}
-                    <form className={classes.form} noValidate onSubmit={onSubmit} >
+                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -200,6 +182,9 @@ export default function SignUpSide() {
                                 </Link>
                             </Grid>
                         </Grid>
+                        <Box mt={5}>
+                            <Copyright/>
+                        </Box>
                     </form>
                 </div>
             </Grid>
