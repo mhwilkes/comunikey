@@ -4,8 +4,9 @@ import bcrypt from 'bcryptjs';
 import nextConnect from 'next-connect';
 import database from '../../../../middlewares/database';
 
-// TODO Needs mailgun instead of sendgrid
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const mailgun = require("mailgun-js");
+const DOMAIN = 'comunikey.xyz';
+const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN});
 
 const handler = nextConnect();
 
@@ -26,19 +27,24 @@ handler.post(async (req, res) => {
         type: 'passwordReset',
         expireAt: new Date(Date.now() + 1000 * 60 * 20),
     });
-    const msg = {
+    const data = {
         to: user.email,
         from: process.env.EMAIL_FROM,
-        subject: '[nextjs-mongodb-app] Reset your password.',
+        subject: 'Reset your password on comunikey.xyz',
         html: `
       <div>
         <p>Hello, ${user.name}</p>
+        <p>It looks like you have requested a password reset!</p>
+        <p>If you did not request this please disregard and ensure that your account is safe.</p>
         <p>Please follow <a href="${process.env.WEB_URI}/forget-password/${token}">this link</a> to reset your password.</p>
       </div>
       `,
     };
-    await sgMail.send(msg);
-    res.end('ok');
+    await mg.messages().send(data, function (error, body) {
+        res.end('ok')
+            .then(msg => console.log(msg));
+        console.log(error);
+    });
 });
 
 handler.put(async (req, res) => {

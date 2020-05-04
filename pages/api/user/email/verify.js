@@ -1,11 +1,10 @@
 import crypto from 'crypto';
-import sgMail from '@sendgrid/mail';
 import nextConnect from 'next-connect';
 import middleware from '../../../../middlewares/middleware';
 
-//TODO this needs mailgun instead of sendgrid
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const mailgun = require("mailgun-js");
+const DOMAIN = 'comunikey.xyz';
+const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN});
 
 const handler = nextConnect();
 
@@ -23,18 +22,24 @@ handler.post(async (req, res) => {
         type: 'emailVerify',
         expireAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
     });
-    const msg = {
+
+    const data = {
         to: req.user.email,
         from: process.env.EMAIL_FROM,
+        subject: 'Verify Email',
         html: `
       <div>
         <p>Hello, ${req.user.name}</p>
         <p>Please follow <a href="${process.env.WEB_URI}/verify-email/${token}">this link</a> to confirm your email.</p>
       </div>
       `,
-    };
-    await sgMail.send(msg);
-    res.end('ok');
+    }
+
+    await mg.messages().send(data, function (error, body) {
+        res.end('ok')
+            .then(msg => console.log(msg));
+        console.log(error);
+    });
 });
 
 export default handler;

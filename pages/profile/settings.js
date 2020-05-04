@@ -135,6 +135,7 @@ const ProfileSection = () => {
         </>
     );
 };
+
 const SettingPage = () => {
     const [user] = useUser();
     if (!user) {
