@@ -7,17 +7,10 @@ import { extractUser } from '../../../lib/api-helpers';
 const upload = multer({ dest: '/tmp' });
 const handler = nextConnect();
 
-/* eslint-disable camelcase */
-const {
-    hostname: cloud_name,
-    username: api_key,
-    password: api_secret,
-} = new URL(process.env.CLOUDINARY_URL);
-
 cloudinary.config({
-    cloud_name,
-    api_key,
-    api_secret,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 handler.use(middleware);
