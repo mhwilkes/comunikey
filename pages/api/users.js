@@ -26,7 +26,7 @@ handler.post(async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await req.db
         .collection('users')
-        .insertOne({email, password: hashedPassword, first_name, last_name, contact})
+        .insertOne({email, password: hashedPassword, first_name, last_name, contact, bio})
         .then(({ops}) => ops[0]);
     req.logIn(user, (err) => {
         if (err) throw err;

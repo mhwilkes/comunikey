@@ -5,13 +5,15 @@ import {useUser} from '../../lib/hooks';
 const ProfileSection = () => {
     const [user, {mutate}] = useUser();
     const [isUpdating, setIsUpdating] = useState(false);
-    const [name, setName] = useState(user.name);
+    const [first_name, setFirstName] = useState(user.first_name);
+    const [last_name, setLastName] = useState(user.last_name);
     const [bio, setBio] = useState(user.bio);
     const profilePictureRef = React.createRef();
     const [msg, setMsg] = useState({message: '', isError: false});
 
     useEffect(() => {
-        setName(user.name);
+        setFirstName(user.first_name);
+        setFirstName(user.last_name);
         setBio(user.bio);
     }, [user]);
 
@@ -23,7 +25,8 @@ const ProfileSection = () => {
         if (profilePictureRef.current.files[0]) {
             formData.append('profilePicture', profilePictureRef.current.files[0]);
         }
-        formData.append('name', name);
+        formData.append('first_name', first_name);
+        formData.append('last_name', last_name);
         formData.append('bio', bio);
         const res = await fetch('/api/user', {
             method: 'PATCH',
@@ -75,16 +78,28 @@ const ProfileSection = () => {
                 {msg.message ?
                     <p style={{color: msg.isError ? 'red' : '#0070f3', textAlign: 'center'}}>{msg.message}</p> : null}
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">
+                    <label htmlFor="first_name">
                         Name
                         <input
                             required
-                            id="name"
-                            name="name"
+                            id="first_name"
+                            name="first_name"
                             type="text"
-                            placeholder="Your name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            placeholder="First Name"
+                            value={first_name}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </label>
+                    <label htmlFor="last_name">
+                        Name
+                        <input
+                            required
+                            id="last_name"
+                            name="last_name"
+                            type="text"
+                            placeholder="Last Name"
+                            value={last_name}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
                     </label>
                     <label htmlFor="bio">

@@ -6,7 +6,7 @@ import {useUser} from '../../lib/hooks';
 const ProfilePage = () => {
     const [user] = useUser();
     const {
-        name, email, bio, profilePicture, emailVerified,
+        first_name, last_name, email, bio, profilePicture, emailVerified,
     } = user || {};
 
     async function sendVerificationEmail() {
@@ -54,7 +54,7 @@ const ProfilePage = () => {
         `}
             </style>
             <Head>
-                <title>{name}</title>
+                <title>{first_name} {last_name} Settings</title>
             </Head>
             <div>
                 {profilePicture ? (
