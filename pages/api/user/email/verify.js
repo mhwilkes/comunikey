@@ -29,7 +29,7 @@ handler.post(async (req, res) => {
         subject: 'Verify Email',
         html: `
       <div>
-        <p>Hello, ${req.user.name}</p>
+        <p>Hello, ${req.user.first_name}</p>
         <p>Please follow <a href="${process.env.WEB_URI}/verify-email/${token}">this link</a> to confirm your email.</p>
       </div>
       `,
