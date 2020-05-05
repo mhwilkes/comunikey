@@ -79,7 +79,7 @@ const ProfileSection = () => {
                     <p style={{color: msg.isError ? 'red' : '#0070f3', textAlign: 'center'}}>{msg.message}</p> : null}
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="first_name">
-                        Name
+                        First Name
                         <input
                             required
                             id="first_name"
@@ -91,7 +91,7 @@ const ProfileSection = () => {
                         />
                     </label>
                     <label htmlFor="last_name">
-                        Name
+                        Last Name
                         <input
                             required
                             id="last_name"

@@ -62,7 +62,7 @@ const ProfilePage = () => {
                 ) : null}
                 <section>
                     <div>
-                        <h2>{name}</h2>
+                        <h2>{first_name} {last_name}</h2>
                         <Link href="/profile/settings">
                             <button type="button">Edit</button>
                         </Link>
