@@ -1,10 +1,10 @@
 import nextConnect from 'next-connect';
 import multer from 'multer';
-import { v2 as cloudinary } from 'cloudinary';
+import {v2 as cloudinary} from 'cloudinary';
 import middleware from '../../../middlewares/middleware';
-import { extractUser } from '../../../lib/api-helpers';
+import {extractUser} from '../../../lib/api-helpers';
 
-const upload = multer({ dest: '/tmp' });
+const upload = multer({dest: '/tmp'});
 const handler = nextConnect();
 
 cloudinary.config({
@@ -15,7 +15,7 @@ cloudinary.config({
 
 handler.use(middleware);
 
-handler.get(async (req, res) => res.json({ user: extractUser(req) }));
+handler.get(async (req, res) => res.json({user: extractUser(req)}));
 
 handler.patch(upload.single('profilePicture'), async (req, res) => {
     if (!req.user) {
@@ -31,18 +31,19 @@ handler.patch(upload.single('profilePicture'), async (req, res) => {
         });
         profilePicture = image.secure_url;
     }
-    const { name, bio } = req.body;
+    const {first_name, last_name, bio} = req.body;
     await req.db.collection('users').updateOne(
-        { _id: req.user._id },
+        {_id: req.user._id},
         {
             $set: {
-                ...(name && { name }),
+                ...(first_name && {first_name}),
+                ...(last_name && {last_name}),
                 bio: bio || '',
-                ...(profilePicture && { profilePicture }),
+                ...(profilePicture && {profilePicture}),
             },
         },
     );
-    res.json({ user: { name, bio } });
+    res.json({user: {name, bio}});
 });
 
 export const config = {
