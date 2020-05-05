@@ -43,7 +43,7 @@ handler.patch(upload.single('profilePicture'), async (req, res) => {
             },
         },
     );
-    res.json({user: {name, bio}});
+    res.json({user: {first_name, last_name, bio}});
 });
 
 export const config = {

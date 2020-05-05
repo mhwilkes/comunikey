@@ -1,4 +1,3 @@
-import sgMail from '@sendgrid/mail';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import nextConnect from 'next-connect';
@@ -33,7 +32,7 @@ handler.post(async (req, res) => {
         subject: 'Reset your password on comunikey.xyz',
         html: `
       <div>
-        <p>Hello, ${user.name}</p>
+        <p>Hello, ${user.first_name}</p>
         <p>It looks like you have requested a password reset!</p>
         <p>If you did not request this please disregard and ensure that your account is safe.</p>
         <p>Please follow <a href="${process.env.WEB_URI}/forget-password/${token}">this link</a> to reset your password.</p>
