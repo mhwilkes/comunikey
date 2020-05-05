@@ -87,6 +87,7 @@ export default function SignInSide() {
       const userObj = await res.json();
       await mutate(userObj);
     } else {
+        console.log(errorMsg);
       setErrorMsg('Incorrect username or password. Try again!');
     }
   }
