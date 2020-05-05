@@ -34,7 +34,9 @@ const ProfileSection = () => {
         });
         if (res.status === 200) {
             const userData = await res.json();
-            mutate({
+            //TODO testing
+            console.log(userData);
+            await mutate({
                 user: {
                     ...user,
                     ...userData.user,
