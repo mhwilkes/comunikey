@@ -12,6 +12,7 @@ handler.use(middleware);
 handler.post(async (req, res) => {
     const {first_name, last_name, password, contact} = req.body;
     const email = normalizeEmail(req.body.email);
+    const bio = '';
     if (!isEmail(email)) {
         res.status(400).send('The email you entered is invalid.');
         return;

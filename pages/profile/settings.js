@@ -13,7 +13,7 @@ const ProfileSection = () => {
 
     useEffect(() => {
         setFirstName(user.first_name);
-        setFirstName(user.last_name);
+        setLastName(user.last_name);
         setBio(user.bio);
     }, [user]);
 
@@ -34,8 +34,6 @@ const ProfileSection = () => {
         });
         if (res.status === 200) {
             const userData = await res.json();
-            //TODO testing
-            console.log(userData);
             await mutate({
                 user: {
                     ...user,
