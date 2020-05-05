@@ -75,7 +75,7 @@ export default function SignInSide() {
     const handleSubmit = async (e) => {
     e.preventDefault();
     const body = {
-      username: e.currentTarget.email.value,
+      email: e.currentTarget.email.value,
       password: e.currentTarget.password.value,
     };
     const res = await fetch('/api/auth', {
