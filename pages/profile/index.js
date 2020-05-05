@@ -6,7 +6,7 @@ import {useUser} from '../../lib/hooks';
 const ProfilePage = () => {
     const [user] = useUser();
     const {
-        first_name, last_name, email, bio, profilePicture, emailVerified,
+        first_name, last_name, email, bio, profilePicture, emailVerified, contact
     } = user || {};
 
     async function sendVerificationEmail() {
