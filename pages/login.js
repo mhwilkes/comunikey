@@ -15,19 +15,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router';
 import {useUser} from '../lib/hooks'
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import Copyright from "../components/Copyright";
 
 const useStyles = makeStyles((theme) => ({
     root: {

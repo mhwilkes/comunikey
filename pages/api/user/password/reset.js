@@ -40,6 +40,12 @@ handler.post(async (req, res) => {
       `,
     };
     await mg.messages().send(data, function (error, body) {
+        if(!error){
+            res.status(200);
+        } else {
+            res.status(401).send(error)
+        }
+
         res.end('ok')
             .then(msg => console.log(msg));
         console.log(error);

@@ -16,6 +16,7 @@ import redirectTo from '../lib/redirectTo';
 import {useUser} from '../lib/hooks'
 import Box from "@material-ui/core/Box";
 import Copyright from "../components/Copyright";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,11 +52,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUpSide() {
     const classes = useStyles();
 
+    const router = useRouter();
     const [user, {mutate}] = useUser();
     const [errorMsg, setErrorMsg] = useState('');
+
     useEffect(() => {
         // redirect to home if user is authenticated
-        if (user) redirectTo('/');
+        if (user) router.push('/');
     }, [user]);
 
     const handleSubmit = async (e) => {

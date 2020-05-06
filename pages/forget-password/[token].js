@@ -4,7 +4,7 @@ import nextConnect from 'next-connect';
 import redirectTo from '../../lib/redirectTo';
 import database from '../../middlewares/database';
 
-const ResetPasswordTokenPage = ({ valid, token }) => {
+const ResetPasswordTokenPage = ({valid, token}) => {
     async function handleSubmit(event) {
         event.preventDefault();
         const body = {
@@ -14,7 +14,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
 
         const res = await fetch('/api/user/password/reset', {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body),
         });
 
@@ -59,14 +59,14 @@ export async function getServerSideProps(ctx) {
     const handler = nextConnect();
     handler.use(database);
     await handler.apply(ctx.req, ctx.res);
-    const { token } = ctx.query;
+    const {token} = ctx.query;
 
     const tokenDoc = await ctx.req.db.collection('tokens').findOne({
         token: ctx.query.token,
         type: 'passwordReset',
     });
 
-    return { props: { token, valid: !!tokenDoc } };
+    return {props: {token, valid: !!tokenDoc}};
 }
 
 export default ResetPasswordTokenPage;

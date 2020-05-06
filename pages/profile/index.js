@@ -3,17 +3,11 @@ import Link from 'next/link';
 import Layout from '../../components/layout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
-import redirectTo from "../../lib/redirectTo";
-
-
 
 export default () => {
     const [user, {mutate}] = useUser();
     return (
-        <ProfilePage title={'Profile'} user={user} mutate={mutate}>
-
-        </ProfilePage>
-
+        <ProfilePage title={'Profile'} user={user} mutate={mutate}/>
     );
 
 }
