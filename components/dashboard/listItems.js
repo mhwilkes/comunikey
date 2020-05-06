@@ -10,37 +10,41 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
 
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
+
 export const mainListItems = (
     <div>
+        <ListItemLink href="/profile">
+            <ListItemIcon>
+                <DashboardIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Profile"/>
+        </ListItemLink>
         <ListItem button>
             <ListItemIcon>
-                <DashboardIcon />
+                <ShoppingCartIcon/>
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Orders"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <ShoppingCartIcon />
+                <PeopleIcon/>
             </ListItemIcon>
-            <ListItemText primary="Orders" />
+            <ListItemText primary="Customers"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <PeopleIcon />
+                <BarChartIcon/>
             </ListItemIcon>
-            <ListItemText primary="Customers" />
+            <ListItemText primary="Reports"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <BarChartIcon />
+                <LayersIcon/>
             </ListItemIcon>
-            <ListItemText primary="Reports" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
+            <ListItemText primary="Integrations"/>
         </ListItem>
     </div>
 );
@@ -50,21 +54,21 @@ export const secondaryListItems = (
         <ListSubheader inset>Categories</ListSubheader>
         <ListItem button>
             <ListItemIcon>
-                <FreeBreakfastIcon />
+                <FreeBreakfastIcon/>
             </ListItemIcon>
-            <ListItemText primary="Key Caps" />
+            <ListItemText primary="Key Caps"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <FreeBreakfastIcon />
+                <FreeBreakfastIcon/>
             </ListItemIcon>
-            <ListItemText primary="Keyboards" />
+            <ListItemText primary="Keyboards"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <FreeBreakfastIcon />
+                <FreeBreakfastIcon/>
             </ListItemIcon>
-            <ListItemText primary="Switches" />
+            <ListItemText primary="Switches"/>
         </ListItem>
     </div>
 );

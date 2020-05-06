@@ -1,10 +1,24 @@
 import React from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
-import {useUser} from '../../lib/hooks';
+import Layout from '../../components/layout'
+import CssBaseline from "@material-ui/core/CssBaseline";
+import {useUser} from "../../lib/hooks";
+import redirectTo from "../../lib/redirectTo";
 
-const ProfilePage = () => {
-    const [user] = useUser();
+
+
+export default () => {
+    const [user, {mutate}] = useUser();
+    return (
+        <ProfilePage title={'Profile'} user={user} mutate={mutate}>
+
+        </ProfilePage>
+
+    );
+
+}
+
+const ProfilePage = ({title, user, mutate}) => {
     const {
         first_name, last_name, email, bio, profilePicture, emailVerified, contact
     } = user || {};
@@ -21,7 +35,8 @@ const ProfilePage = () => {
         );
     }
     return (
-        <>
+        <Layout title={title} user={user} mutate={mutate}>
+            <CssBaseline/>
             <style jsx>
                 {`
           h2 {
@@ -53,40 +68,34 @@ const ProfilePage = () => {
           }
         `}
             </style>
-            <Head>
-                <title>{first_name} {last_name} Settings</title>
-            </Head>
-            <div>
-                {profilePicture ? (
-                    <img src={profilePicture} width="256" height="256" alt={name}/>
-                ) : null}
-                <section>
-                    <div>
-                        <h2>{first_name} {last_name}</h2>
-                        <Link href="/profile/settings">
-                            <button type="button">Edit</button>
-                        </Link>
-                    </div>
-                    Bio
-                    <p>{bio}</p>
-                    Email
-                    <p>
-                        {email}
-                        {!emailVerified ? (
-                            <>
-                                {' '}
-                                unverified
-                                {' '}
-                                {/* eslint-disable-next-line */}
-                                <a role="button" onClick={sendVerificationEmail}>
-                                    Send verification email
-                                </a>
-                            </>
-                        ) : null}
-                    </p>
-                </section>
-            </div>
-        </>
+            {profilePicture ? (
+                <img src={profilePicture} width="256" height="256" alt={name}/>
+            ) : null}
+            <section>
+                <div>
+                    <h2>{first_name} {last_name}</h2>
+                    <Link href="/profile/settings">
+                        <button type="button">Edit</button>
+                    </Link>
+                </div>
+                Bio
+                <p>{bio}</p>
+                Email
+                <p>
+                    {email}
+                    {!emailVerified ? (
+                        <>
+                            {' '}
+                            unverified
+                            {' '}
+                            {/* eslint-disable-next-line */}
+                            <a role="button" onClick={sendVerificationEmail}>
+                                Send verification email
+                            </a>
+                        </>
+                    ) : null}
+                </p>
+            </section>
+        </Layout>
     );
 };
-export default ProfilePage;

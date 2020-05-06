@@ -1,9 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import Head from 'next/head';
-import {useUser} from '../../lib/hooks';
+import Layout from '../../components/layout'
+import {useUser} from "../../lib/hooks";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-const ProfileSection = () => {
+export default () => {
     const [user, {mutate}] = useUser();
+
+    return(
+        <SettingPage user={user} mutate={mutate}/>
+    )
+}
+
+const ProfileSection = ({user, mutate}) => {
+
     const [isUpdating, setIsUpdating] = useState(false);
     const [first_name, setFirstName] = useState(user.first_name);
     const [last_name, setLastName] = useState(user.last_name);
@@ -11,14 +20,15 @@ const ProfileSection = () => {
     const profilePictureRef = React.createRef();
     const [msg, setMsg] = useState({message: '', isError: false});
 
+
     useEffect(() => {
         setFirstName(user.first_name);
         setLastName(user.last_name);
         setBio(user.bio);
     }, [user]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (isUpdating) return;
         setIsUpdating(true);
         const formData = new FormData();
@@ -28,10 +38,12 @@ const ProfileSection = () => {
         formData.append('first_name', first_name);
         formData.append('last_name', last_name);
         formData.append('bio', bio);
+
         const res = await fetch('/api/user', {
             method: 'PATCH',
             body: formData,
         });
+
         if (res.status === 200) {
             const userData = await res.json();
             await mutate({
@@ -69,90 +81,86 @@ const ProfileSection = () => {
     };
 
     return (
-        <>
-            <Head>
-                <title>Settings</title>
-            </Head>
-            <section>
-                <h2>Edit Profile</h2>
-                {msg.message ?
-                    <p style={{color: msg.isError ? 'red' : '#0070f3', textAlign: 'center'}}>{msg.message}</p> : null}
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="first_name">
-                        First Name
-                        <input
-                            required
-                            id="first_name"
-                            name="first_name"
-                            type="text"
-                            placeholder="First Name"
-                            value={first_name}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </label>
-                    <label htmlFor="last_name">
-                        Last Name
-                        <input
-                            required
-                            id="last_name"
-                            name="last_name"
-                            type="text"
-                            placeholder="Last Name"
-                            value={last_name}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </label>
-                    <label htmlFor="bio">
-                        Bio
-                        <textarea
-                            id="bio"
-                            name="bio"
-                            type="text"
-                            placeholder="Bio"
-                            value={bio}
-                            onChange={(e) => setBio(e.target.value)}
-                        />
-                    </label>
-                    <label htmlFor="avatar">
-                        Profile picture
-                        <input
-                            type="file"
-                            id="avatar"
-                            name="avatar"
-                            accept="image/png, image/jpeg"
-                            ref={profilePictureRef}
-                        />
-                    </label>
-                    <button disabled={isUpdating} type="submit">Save</button>
-                </form>
-                <form onSubmit={handleSubmitPasswordChange}>
-                    <label htmlFor="oldpassword">
-                        Old Password
-                        <input
-                            type="password"
-                            name="oldPassword"
-                            id="oldpassword"
-                            required
-                        />
-                    </label>
-                    <label htmlFor="newpassword">
-                        New Password
-                        <input
-                            type="password"
-                            name="newPassword"
-                            id="newpassword"
-                            required
-                        />
-                    </label>
-                    <button type="submit">Change Password</button>
-                </form>
-            </section>
-        </>
+        <Layout user={user} mutate={mutate}>
+            <h1>Settings</h1>
+            <CssBaseline/>
+            <h2>Edit Profile</h2>
+            {msg.message ?
+                <p style={{color: msg.isError ? 'red' : '#0070f3', textAlign: 'center'}}>{msg.message}</p> : null}
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="first_name">
+                    First Name
+                    <input
+                        required
+                        id="first_name"
+                        name="first_name"
+                        type="text"
+                        placeholder="First Name"
+                        value={first_name}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                </label>
+                <label htmlFor="last_name">
+                    Last Name
+                    <input
+                        required
+                        id="last_name"
+                        name="last_name"
+                        type="text"
+                        placeholder="Last Name"
+                        value={last_name}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                </label>
+                <label htmlFor="bio">
+                    Bio
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        type="text"
+                        placeholder="Bio"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                    />
+                </label>
+                <label htmlFor="avatar">
+                    Profile picture
+                    <input
+                        type="file"
+                        id="avatar"
+                        name="avatar"
+                        accept="image/png, image/jpeg"
+                        ref={profilePictureRef}
+                    />
+                </label>
+                <button disabled={isUpdating} type="submit">Save</button>
+            </form>
+            <form onSubmit={handleSubmitPasswordChange}>
+                <label htmlFor="oldpassword">
+                    Old Password
+                    <input
+                        type="password"
+                        name="oldPassword"
+                        id="oldpassword"
+                        required
+                    />
+                </label>
+                <label htmlFor="newpassword">
+                    New Password
+                    <input
+                        type="password"
+                        name="newPassword"
+                        id="newpassword"
+                        required
+                    />
+                </label>
+                <button type="submit">Change Password</button>
+            </form>
+        </Layout>
     );
 };
 
-const SettingPage = () => {
-    const [user] = useUser();
+const SettingPage = ({user, mutate}) => {
     if (!user) {
         return (
             <>
@@ -162,9 +170,11 @@ const SettingPage = () => {
     }
     return (
         <>
-            <h1>Settings</h1>
-            <ProfileSection user={user}/>
+            <ProfileSection user={user} mutate={mutate}/>
         </>
     );
 };
-export default SettingPage;
+
+
+
+
