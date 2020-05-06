@@ -4,18 +4,11 @@ import Head from 'next/head';
 import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../lib/theme';
-import NProgress from 'nprogress'
-import Router from 'next/router'
-import Layout from '../components/layout'
-import '../css/tailwind.css'
-import '../css/styles.css'
+import '../public/css/tailwind.css'
+import '../public/css/styles.css'
 
-Router.events.on('routeChangeStart', url => {
-    console.log(`Loading: ${url}`)
-    NProgress.start()
-})
-Router.events.on('routeChangeComplete', () => NProgress.done())
-Router.events.on('routeChangeError', () => NProgress.done())
+
+
 
 export default function MyApp({Component, pageProps}) {
 
