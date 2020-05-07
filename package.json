@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "yarn clean && next dev",
+    "clean": "rm -rf .next",
+    "build": "yarn clean && next build",
     "start": "next start",
     "lint": "eslint ./"
   },
@@ -26,6 +27,7 @@
     "multer": "^1.4.2",
     "next": "^9.3.6",
     "next-connect": "^0.6.5",
+    "next-page-transitions": "^1.0.0-beta.2",
     "next-session": "^3.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
@@ -41,9 +43,9 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0"
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^4.0.0"
   }
 }

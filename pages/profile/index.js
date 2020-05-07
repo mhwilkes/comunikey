@@ -3,9 +3,48 @@ import Link from 'next/link';
 import Layout from '../../components/layout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
+import {redirectUser} from "../../lib/redirectUser";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    h2: {
+        textAlign: "center",
+        marginRight: theme.spacing(2)
+    },
+    button: {
+        margin: "(0, 0, .25rem)"
+    },
+    img: {
+        width: "10rem",
+        height: "auto",
+        borderRadius: "50%",
+        boxShadow: "rgba(0, 0, 0, 0.05) 0 10px 20px 1px",
+        marginRight: "1.5rem"
+    },
+    div: {
+        color: "#777",
+        display: "flex",
+        alignItems: "center"
+    },
+    p: {
+        fontFamily: "monospace",
+        color: "#444",
+        margin: "0.25rem 0 0 0.75rem"
+    },
+    a: {
+        marginLeft: "0.25rem"
+    }
+}));
 
 export default () => {
     const [user, {mutate}] = useUser();
+
+    ProfilePage.getInitialProps = async ctx => {
+        if (!user) {
+            redirectUser(ctx, "/");
+        }
+    }
+
     return (
         <ProfilePage title={'Profile'} user={user} mutate={mutate}/>
     );
@@ -23,59 +62,26 @@ const ProfilePage = ({title, user, mutate}) => {
         });
     }
 
-    if (!user) {
-        return (
-            <p>Please sign in</p>
-        );
-    }
+    const classes = useStyles();
+
     return (
         <Layout title={title} user={user} mutate={mutate}>
             <CssBaseline/>
-            <style jsx>
-                {`
-          h2 {
-            text-align: left;
-            margin-right: 0.5rem;
-          }
-          button {
-            margin: 0 0.25rem;
-          }
-          img {
-            width: 10rem;
-            height: auto;
-            border-radius: 50%;
-            box-shadow: rgba(0, 0, 0, 0.05) 0 10px 20px 1px;
-            margin-right: 1.5rem;
-          }
-          div {
-            color: #777;
-            display: flex;
-            align-items: center;
-          }
-          p {
-            font-family: monospace;
-            color: #444;
-            margin: 0.25rem 0 0.75rem;
-          }
-          a {
-            margin-left: 0.25rem;
-          }
-        `}
-            </style>
+
             {profilePicture ? (
-                <img src={profilePicture} width="256" height="256" alt={name}/>
+                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name}/>
             ) : null}
             <section>
-                <div>
-                    <h2>{first_name} {last_name}</h2>
+                <div className={classes.div}>
+                    <h2 className={classes.h2}>{first_name} {last_name}</h2>
                     <Link href="/profile/settings">
-                        <button type="button">Edit</button>
+                        <button className={classes.button} type="button">Edit</button>
                     </Link>
                 </div>
                 Bio
-                <p>{bio}</p>
+                <p className={classes.p}>{bio}</p>
                 Email
-                <p>
+                <p className={classes.p}>
                     {email}
                     {!emailVerified ? (
                         <>
@@ -83,7 +89,7 @@ const ProfilePage = ({title, user, mutate}) => {
                             unverified
                             {' '}
                             {/* eslint-disable-next-line */}
-                            <a role="button" onClick={sendVerificationEmail}>
+                            <a className={classes.a} role="button" onClick={sendVerificationEmail}>
                                 Send verification email
                             </a>
                         </>

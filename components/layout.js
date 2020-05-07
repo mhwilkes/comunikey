@@ -151,7 +151,7 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
     </IconButton>) : null;
 
     const renderMenu = (user) ? (<Menu
-        menu={menu}
+
         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
         id={menuId}
         keepMounted
