@@ -9,10 +9,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
-
-function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-}
+import ListItemLink from '../ListItemLink'
 
 export const mainListItems = (
     <div>

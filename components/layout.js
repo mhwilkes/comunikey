@@ -23,6 +23,7 @@ import Copyright from "../components/Copyright";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {AccountCircle} from "@material-ui/icons";
+import Link from "@material-ui/core/Link"
 
 const drawerWidth = 240;
 
@@ -107,7 +108,13 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
         height: 240,
     },
+    loginRender: {
+        color: "#fff",
+        fontSize: "medium",
+        margin: "0 10px"
+    }
 }));
+
 export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => {
 
     async function handleLogout() {
@@ -149,6 +156,18 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
     >
         <AccountCircle/>
     </IconButton>) : null;
+
+    const renderLoginSignup = (!user) ? (
+        <>
+            <Link href="/login" className={classes.loginRender}>
+                Log In
+            </Link>
+            |
+            <Link href="/signup" className={classes.loginRender}>
+                Sign Up
+            </Link>
+        </>
+    ) : null;
 
     const renderMenu = (user) ? (<Menu
 
@@ -197,9 +216,11 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
                                 <NotificationsIcon/>
                             </Badge>
                         </IconButton>
+                        {renderLoginSignup}
                         {profile}
                     </Toolbar>
                 </AppBar>
+
                 {renderMenu}
                 <Drawer
                     variant="permanent"

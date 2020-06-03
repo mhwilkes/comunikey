@@ -39,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
 export default () => {
     const [user, {mutate}] = useUser();
 
-    ProfilePage.getInitialProps = async ctx => {
-        if (!user) {
-            redirectUser(ctx, "/");
-        }
+    if (!user) {
+        return (
+            <>
+                <p>Please sign in</p>
+            </>
+        );
     }
 
     return (
@@ -52,6 +54,8 @@ export default () => {
 }
 
 const ProfilePage = ({title, user, mutate}) => {
+    const classes = useStyles();
+
     const {
         first_name, last_name, email, bio, profilePicture, emailVerified, contact
     } = user || {};
@@ -61,8 +65,6 @@ const ProfilePage = ({title, user, mutate}) => {
             method: 'POST',
         });
     }
-
-    const classes = useStyles();
 
     return (
         <Layout title={title} user={user} mutate={mutate}>
