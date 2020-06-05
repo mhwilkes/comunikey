@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import Link from 'next/link';
 import Layout from '../../components/layout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
-import {redirectUser} from "../../lib/redirectUser";
 import {makeStyles} from "@material-ui/core/styles";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
     h2: {
@@ -48,14 +48,14 @@ export default () => {
     }
 
     return (
-        <ProfilePage title={'Profile'} user={user} mutate={mutate}/>
+        <ProfilePage title={'Profile'} user={user} mutate={mutate} />
     );
 
 }
 
 const ProfilePage = ({title, user, mutate}) => {
     const classes = useStyles();
-
+    const router = useRouter();
     const {
         first_name, last_name, email, bio, profilePicture, emailVerified, contact
     } = user || {};
@@ -68,10 +68,10 @@ const ProfilePage = ({title, user, mutate}) => {
 
     return (
         <Layout title={title} user={user} mutate={mutate}>
-            <CssBaseline/>
+            <CssBaseline />
 
             {profilePicture ? (
-                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name}/>
+                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name} />
             ) : null}
             <section>
                 <div className={classes.div}>
@@ -90,7 +90,6 @@ const ProfilePage = ({title, user, mutate}) => {
                             {' '}
                             unverified
                             {' '}
-                            {/* eslint-disable-next-line */}
                             <a className={classes.a} role="button" onClick={sendVerificationEmail}>
                                 Send verification email
                             </a>
