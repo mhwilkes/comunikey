@@ -182,7 +182,7 @@ const ProfileSection = ({user, mutate}) => {
                                 id="avatar"
                                 name="avatar"
                                 accept="image/png, image/jpeg"
-                                ref={profilePictureRef}
+                                inputRef={profilePictureRef}
                                 style={{display: 'none'}}
                                 aria-describedby="bio_help" />
                             <FormHelperText id="bio_help">Profile Picture Upload</FormHelperText>
