@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import Layout from '../../components/layout';
 import {useUser} from "../../lib/hooks";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,7 +9,10 @@ import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid"
 import Select from '@material-ui/core/Select';
+import Typography from "@material-ui/core/Typography";
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -105,139 +108,178 @@ const ProfileSection = ({user, mutate}) => {
 
     return (
         <Layout user={user} mutate={mutate}>
-            <h1>Settings</h1>
             <CssBaseline />
-            <h2>Edit Profile</h2>
-            {msg.message ?
-                <p style={{color: msg.isError ? 'red' : '#0070f3', textAlign: 'center'}}>{msg.message}</p> : null}
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography variant={"h3"} component={"h1"}>Profile Settings</Typography>
+                    {msg.message ?
+                        <p style={{
+                            color: msg.isError ? 'red' : '#0070f3',
+                            textAlign: 'center'
+                        }}>{msg.message}</p> : null}
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant={"h5"} component={"h2"}>Edit Profile</Typography>
+                    <form onSubmit={handleSubmit}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="first_name">
+                                First Name
+                            </InputLabel>
+                            <Input required
+                                   id="first_name"
+                                   name="first_name"
+                                   type="text"
+                                   placeholder="First Name"
+                                   value={first_name}
+                                   onChange={(e) => setFirstName(e.target.value)}
+                                   aria-describedby="first_name_help" />
+                            <FormHelperText id="first_name_help">Enter Your First Name</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="last_name">
+                                Last Name
+                            </InputLabel>
+                            <Input required
+                                   id="last_name"
+                                   name="last_name"
+                                   type="text"
+                                   placeholder="Last Name"
+                                   value={last_name}
+                                   onChange={(e) => setLastName(e.target.value)}
+                                   aria-describedby="last_name_help" />
+                            <FormHelperText id="last_name_help">Enter Your Last Name</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="bio">
+                                Biography
+                            </InputLabel>
+                            <Input required
+                                   id="bio"
+                                   name="bio"
+                                   type="text"
+                                   placeholder="Bio"
+                                   multiline
+                                   value={bio}
+                                   onChange={(e) => setBio(e.target.value)}
+                                   aria-describedby="bio_help" />
+                            <FormHelperText id="bio_help">Fill out a Biography about yourself</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="avatar">
+                                <Button
+                                    variant="outlined"
+                                    component="span"
+                                    className={classes.button}
+                                    size="medium"
+                                    color="primary"
+                                >
+                                    <AttachFileIcon />
+                                </Button>
+                            </InputLabel>
+                            <Input
+                                color="primary"
+                                type="file"
+                                id="avatar"
+                                name="avatar"
+                                accept="image/png, image/jpeg"
+                                ref={profilePictureRef}
+                                style={{display: 'none'}}
+                                aria-describedby="bio_help" />
+                            <FormHelperText id="bio_help">Profile Picture Upload</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <Button disabled={isUpdating} type="submit" variant="outlined" color="secondary">Save
+                                                                                                             Changes</Button>
+                        </FormControl>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="first_name">
-                    First Name
-                    <input
-                        required
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        placeholder="First Name"
-                        value={first_name}
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                </label>
-                <label htmlFor="last_name">
-                    Last Name
-                    <input
-                        required
-                        id="last_name"
-                        name="last_name"
-                        type="text"
-                        placeholder="Last Name"
-                        value={last_name}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                </label>
-                <label htmlFor="bio">
-                    Bio
-                    <textarea
-                        id="bio"
-                        name="bio"
-                        type="text"
-                        placeholder="Bio"
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                    />
-                </label>
-                <label htmlFor="avatar">
-                    Profile picture
-                    <input
-                        type="file"
-                        id="avatar"
-                        name="avatar"
-                        accept="image/png, image/jpeg"
-                        ref={profilePictureRef}
-                    />
-                </label>
-                <button disabled={isUpdating} type="submit">Save</button>
-            </form>
-            <form onSubmit={handleSubmitPasswordChange}>
-                <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="oldpassword">
-                        Old Password
-                    </InputLabel>
-                    <Input id="oldpassword" name="oldpassword" aria-describedby="oldpasshelptext" />
-                    <FormHelperText id="oldpasshelptext">Please enter your old password here</FormHelperText>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="newpassword">
-                        New Password
-                    </InputLabel>
-                    <Input id="newpassword" name="newpassword" aria-describedby="newpasshelptext" />
-                    <FormHelperText id="newpasshelptext">Please enter your new password here</FormHelperText>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <Button type="submit" variant="outlined" color="secondary">Change Password</Button>
-                </FormControl>
-            </form>
-            <form onSubmit={handleNewSet}>
-                <label htmlFor="set-name">
-                    Set Name
-                    <input
-                        type="text"
-                        name="set-name"
-                        id="set-name"
-                        required
-                    />
-                </label>
-                <label htmlFor="author-name">
-                    Author Name
-                    <input
-                        type="text"
-                        name="author-name"
-                        id="author-name"
-                        required
-                    />
-                </label>
-                <label htmlFor="manufacturer-name">
-                    Manufacturer
-                    <select
-                        name="manufacturer-name"
-                        id="manufacturer-name"
-                        required>
-                        <option value={"GMK"}>GMK</option>
-                        <option value={"E-PBT"}>E-PBT</option>
-                        <option value={"JTK"}>JTK</option>
-                    </select>
-                </label>
-                <label htmlFor="profile-name">
-                    Profile Type
-                    <select
-                        name="profile-name"
-                        id="profile-name"
-                        required>
-                        <option value={"Cherry"}>Cherry</option>
-                        <option value={"SA"}>SA</option>
-                        <option value={"DSA"}>DSA</option>
-                        <option value={"XDA"}>XDA</option>
-                        <option value={"MT3"}>MT3</option>
-                        <option value={"KAT"}>KAT</option>
-                        <option value={"KAM"}>KAM</option>
-                        <option value={"OEM"}>OEM</option>
-                        <option value={"MDA"}>MDA</option>
-                        <option value={"DCS"}>DCS</option>
-                    </select>
-                </label>
-                <label htmlFor="profile-name">
-                    Profile Type
-                    <select
-                        name="profile-name"
-                        id="profile-name"
-                        required>
-                        <option value={"MX"}>MX</option>
-                        <option value={"Topre"}>Topre</option>
-                        <option value={"Alps"}>Alps</option>
-                    </select>
-                </label>
-            </form>
+                    </form>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant={"h5"} component={"h2"}>Change Password</Typography>
+                    <form onSubmit={handleSubmitPasswordChange}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="oldpassword">
+                                Old Password
+                            </InputLabel>
+                            <Input id="oldpassword" name="oldpassword" placeholder={"********"}
+                                   aria-describedby="oldpasshelptext" />
+                            <FormHelperText id="oldpasshelptext">Please enter your old password here</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="newpassword">
+                                New Password
+                            </InputLabel>
+                            <Input id="newpassword" name="newpassword" placeholder={"********"}
+                                   aria-describedby="newpasshelptext" />
+                            <FormHelperText id="newpasshelptext">Please enter your new password here</FormHelperText>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <Button type="submit" variant="outlined" color="secondary">Change Password</Button>
+                        </FormControl>
+                    </form>
+                </Grid>
+                <form onSubmit={handleNewSet}>
+                    <label htmlFor="set-name">
+                        Set Name
+                        <input
+                            type="text"
+                            name="set-name"
+                            id="set-name"
+                            required
+                        />
+                    </label>
+                    <label htmlFor="author-name">
+                        Author Name
+                        <input
+                            type="text"
+                            name="author-name"
+                            id="author-name"
+                            required
+                        />
+                    </label>
+                    <label htmlFor="manufacturer-name">
+                        Manufacturer
+                        <select
+                            name="manufacturer-name"
+                            id="manufacturer-name"
+                            required>
+                            <option value={"GMK"}>GMK</option>
+                            <option value={"E-PBT"}>E-PBT</option>
+                            <option value={"JTK"}>JTK</option>
+                        </select>
+                    </label>
+                    <label htmlFor="profile-name">
+                        Profile Type
+                        <select
+                            name="profile-name"
+                            id="profile-name"
+                            required>
+                            <option value={"Cherry"}>Cherry</option>
+                            <option value={"SA"}>SA</option>
+                            <option value={"DSA"}>DSA</option>
+                            <option value={"XDA"}>XDA</option>
+                            <option value={"MT3"}>MT3</option>
+                            <option value={"KAT"}>KAT</option>
+                            <option value={"KAM"}>KAM</option>
+                            <option value={"OEM"}>OEM</option>
+                            <option value={"MDA"}>MDA</option>
+                            <option value={"DCS"}>DCS</option>
+                        </select>
+                    </label>
+                    <label htmlFor="profile-name">
+                        Profile Type
+                        <select
+                            name="profile-name"
+                            id="profile-name"
+                            required>
+                            <option value={"MX"}>MX</option>
+                            <option value={"Topre"}>Topre</option>
+                            <option value={"Alps"}>Alps</option>
+                        </select>
+                    </label>
+                </form>
+            </Grid>
+
         </Layout>
     );
 };

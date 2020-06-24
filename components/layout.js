@@ -125,7 +125,7 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
     }
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -133,7 +133,6 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
 
     const [menu, setMenuOpen] = React.useState(false);
     const menuId = 'profile-menu';
