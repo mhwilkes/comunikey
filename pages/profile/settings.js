@@ -87,10 +87,6 @@ const ProfileSection = ({user, mutate}) => {
         }
     };
 
-    const handleNewSet = async (e) => {
-
-    }
-
     const handleSubmitPasswordChange = async (e) => {
         e.preventDefault();
         const body = {
@@ -225,66 +221,7 @@ const ProfileSection = ({user, mutate}) => {
                         </FormControl>
                     </form>
                 </Grid>
-                <form onSubmit={handleNewSet}>
-                    <label htmlFor="set-name">
-                        Set Name
-                        <input
-                            type="text"
-                            name="set-name"
-                            id="set-name"
-                            required
-                        />
-                    </label>
-                    <label htmlFor="author-name">
-                        Author Name
-                        <input
-                            type="text"
-                            name="author-name"
-                            id="author-name"
-                            required
-                        />
-                    </label>
-                    <label htmlFor="manufacturer-name">
-                        Manufacturer
-                        <select
-                            name="manufacturer-name"
-                            id="manufacturer-name"
-                            required>
-                            <option value={"GMK"}>GMK</option>
-                            <option value={"E-PBT"}>E-PBT</option>
-                            <option value={"JTK"}>JTK</option>
-                        </select>
-                    </label>
-                    <label htmlFor="profile-name">
-                        Profile Type
-                        <select
-                            name="profile-name"
-                            id="profile-name"
-                            required>
-                            <option value={"Cherry"}>Cherry</option>
-                            <option value={"SA"}>SA</option>
-                            <option value={"DSA"}>DSA</option>
-                            <option value={"XDA"}>XDA</option>
-                            <option value={"MT3"}>MT3</option>
-                            <option value={"KAT"}>KAT</option>
-                            <option value={"KAM"}>KAM</option>
-                            <option value={"OEM"}>OEM</option>
-                            <option value={"MDA"}>MDA</option>
-                            <option value={"DCS"}>DCS</option>
-                        </select>
-                    </label>
-                    <label htmlFor="profile-name">
-                        Profile Type
-                        <select
-                            name="profile-name"
-                            id="profile-name"
-                            required>
-                            <option value={"MX"}>MX</option>
-                            <option value={"Topre"}>Topre</option>
-                            <option value={"Alps"}>Alps</option>
-                        </select>
-                    </label>
-                </form>
+
             </Grid>
 
         </Layout>
