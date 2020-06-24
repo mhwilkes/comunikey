@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid"
 import Select from '@material-ui/core/Select';
 import Typography from "@material-ui/core/Typography";
 import AttachFileIcon from '@material-ui/icons/AttachFile';
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
+    hideInput: {
+        display: "none",
+    },
+    fileButton: {
+        marginBottom: theme.spacing(6),
+    }
 }));
 
 export default () => {
@@ -164,7 +171,7 @@ const ProfileSection = ({user, mutate}) => {
                                    aria-describedby="bio_help" />
                             <FormHelperText id="bio_help">Fill out a Biography about yourself</FormHelperText>
                         </FormControl>
-                        <FormControl className={classes.formControl}>
+                        <FormControl className={clsx(classes.formControl, classes.fileButton)} >
                             <InputLabel htmlFor="avatar">
                                 <Button
                                     variant="outlined"
