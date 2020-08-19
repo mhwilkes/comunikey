@@ -32,15 +32,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ProfileSection = ({user, mutate}) => {
-
+const ProfileSection = () => {
     const classes = useStyles();
     const [isUpdating, setIsUpdating] = useState(false);
+    const [user, {mutate}] = useUser();
     const [first_name, setFirstName] = useState(user.first_name);
     const [last_name, setLastName] = useState(user.last_name);
     const [bio, setBio] = useState(user.bio);
     const profilePictureRef = React.createRef();
     const [msg, setMsg] = useState({message: '', isError: false});
+
 
     useEffect(() => {
         setFirstName(user.first_name);

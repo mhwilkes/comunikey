@@ -5,14 +5,20 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
 import {makeStyles} from "@material-ui/core/styles";
 import redirectTo from "../../lib/redirectTo";
+import Grid from "@material-ui/core/Grid";
+import {Typography} from "@material-ui/core";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     h2: {
-        textAlign: "center",
-        marginRight: theme.spacing(2)
+        textAlign: "left",
+        marginRight: theme.spacing(2),
+        margin: "0.25rem 0 0 0.75rem",
     },
     button: {
-        margin: "(0, 0, .25rem)"
+        marginRight: theme.spacing(2),
+        margin: "0.25rem 0 0 0.75rem",
     },
     img: {
         width: "10rem",
@@ -23,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     div: {
         color: "#777",
-        display: "flex",
+        display: "block",
         alignItems: "center"
     },
     p: {
@@ -38,12 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = () => {
     const [user, {mutate}] = useUser();
-
-    // useEffect(() => {
-    //     if (!user) {
-    //         redirectTo("/");
-    //     }
-    // });
 
     return (
         <ProfilePage title={'Profile'} user={user} mutate={mutate} />
@@ -67,34 +67,64 @@ const ProfilePage = ({title, user, mutate}) => {
     return (
         <Layout title={title} user={user} mutate={mutate}>
             <CssBaseline />
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            {profilePicture ? (
+                                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name} />
+                            ) : null}
+                        </Grid>
+                        <Grid item xs={8}>
+                            <div className={classes.div}>
+                                <Typography className={classes.h2} variant={"h4"} component={"h4"}>User
+                                                                                                   Profile</Typography>
+                                <Typography className={classes.h2} variant={"h5"}
+                                            component={"h5"}>Username: {first_name} {last_name}</Typography>
+                                <Link href="/profile/settings">
+                                    <Button
+                                        variant="outlined"
+                                        component="span"
+                                        className={classes.button}
+                                        size="medium"
+                                        color="primary"
+                                    >Edit Your Profile</Button>
+                                </Link>
+                            </div>
+                        </Grid>
+                    </Grid>
 
-            {profilePicture ? (
-                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name} />
-            ) : null}
-            <section>
-                <div className={classes.div}>
-                    <h2 className={classes.h2}>{first_name} {last_name}</h2>
-                    <Link href="/profile/settings">
-                        <button className={classes.button} type="button">Edit</button>
-                    </Link>
-                </div>
-                Bio
-                <p className={classes.p}>{bio}</p>
-                Email
-                <p className={classes.p}>
-                    {email}
-                    {!emailVerified ? (
-                        <>
-                            {' '}
-                            unverified
-                            {' '}
-                            <a className={classes.a} role="button" onClick={sendVerificationEmail}>
-                                Send verification email
-                            </a>
-                        </>
-                    ) : null}
-                </p>
-            </section>
+                </Grid>
+                <Grid item xs={6}>
+                    <section>
+                        <Typography className={classes.h2} variant={"h5"} component={"h5"}>Bio</Typography>
+
+                        <p className={classes.p}>{bio}</p>
+                        <Typography className={classes.h2} variant={"h5"} component={"h5"}>Email</Typography>
+                        <p className={classes.p}>
+                            {email}
+                            {!emailVerified ? (
+                                <div>
+                                    <div>
+                                        <span className={classes.p}>Status: Unverified</span>
+                                    </div>
+                                    <div>
+                                        <a className={classes.a} role="button" onClick={sendVerificationEmail}>
+                                            <Button
+                                                variant="outlined"
+                                                component="span"
+                                                className={classes.button}
+                                                size="medium"
+                                                color="primary"
+                                            >Send Verification Email</Button>
+                                        </a>
+                                    </div>
+                                </div>
+                            ) : null}
+                        </p>
+                    </section>
+                </Grid>
+            </Grid>
         </Layout>
     );
 };
