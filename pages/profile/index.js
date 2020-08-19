@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Link from 'next/link';
 import Layout from '../../components/layout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
 import {makeStyles} from "@material-ui/core/styles";
-import {useRouter} from "next/router";
+import redirectTo from "../../lib/redirectTo";
 
 const useStyles = makeStyles((theme) => ({
     h2: {
@@ -36,26 +36,24 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default () => {
+const Profile = () => {
     const [user, {mutate}] = useUser();
 
-    if (!user) {
-        return (
-            <>
-                <p>Please sign in</p>
-            </>
-        );
-    }
+    // useEffect(() => {
+    //     if (!user) {
+    //         redirectTo("/");
+    //     }
+    // });
 
     return (
         <ProfilePage title={'Profile'} user={user} mutate={mutate} />
     );
 
-}
+};
+export default Profile;
 
 const ProfilePage = ({title, user, mutate}) => {
     const classes = useStyles();
-    const router = useRouter();
     const {
         first_name, last_name, email, bio, profilePicture, emailVerified, contact
     } = user || {};

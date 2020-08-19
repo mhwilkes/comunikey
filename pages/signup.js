@@ -58,7 +58,7 @@ export default function SignUpSide() {
 
     useEffect(() => {
         // redirect to home if user is authenticated
-        if (user) router.push('/');
+        if (user) redirectTo("/");
     }, [user]);
 
     const handleSubmit = async (e) => {
@@ -91,11 +91,11 @@ export default function SignUpSide() {
 
     return (
         <Grid container component="main" className={classes.root}>
-            <CssBaseline/>
+            <CssBaseline />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
+                        <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign Up
@@ -163,7 +163,7 @@ export default function SignUpSide() {
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary"/>}
+                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
                                     label="I want to receive inspiration, marketing promotions and updates via email."
                                     name="contact"
                                 />
@@ -186,12 +186,12 @@ export default function SignUpSide() {
                             </Grid>
                         </Grid>
                         <Box mt={5}>
-                            <Copyright/>
+                            <Copyright />
                         </Box>
                     </form>
                 </div>
             </Grid>
-            <Grid item xs={false} sm={4} md={7} className={classes.image}/>
+            <Grid item xs={false} sm={4} md={7} className={classes.image} />
         </Grid>
     );
 }

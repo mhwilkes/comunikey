@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => {
+const Layout = ({children, title = 'Comunikey', user, mutate}) => {
 
     async function handleLogout() {
         await fetch('/api/auth', {
@@ -153,7 +153,7 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
         onClick={handleProfileMenuOpen}
         color="inherit"
     >
-        <AccountCircle/>
+        <AccountCircle />
     </IconButton>) : null;
 
     const renderLoginSignup = (!user) ? (
@@ -186,16 +186,16 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
         <React.Fragment>
             <Head>
                 <title>{title}</title>
-                <meta charSet="utf-8"/>
+                <meta charSet="utf-8" />
                 <meta
                     key="viewport"
                     name="viewport"
                     content="width=device-width, initial-scale=1, shrink-to-fit=no"
                 />
             </Head>
-            <CssBaseline/>
+            <CssBaseline />
             <div className={classes.root}>
-                <CssBaseline/>
+                <CssBaseline />
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
@@ -205,14 +205,14 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
                             onClick={handleDrawerOpen}
                             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                             {title}
                         </Typography>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon/>
+                                <NotificationsIcon />
                             </Badge>
                         </IconButton>
                         {renderLoginSignup}
@@ -230,16 +230,16 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
                 >
                     <div className={classes.toolbarIcon}>
                         <IconButton onClick={handleDrawerClose}>
-                            <ChevronLeftIcon/>
+                            <ChevronLeftIcon />
                         </IconButton>
                     </div>
-                    <Divider/>
+                    <Divider />
                     <List>{mainListItems}</List>
-                    <Divider/>
+                    <Divider />
                     <List>{secondaryListItems}</List>
                 </Drawer>
                 <main className={classes.content}>
-                    <div className={classes.appBarSpacer}/>
+                    <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
                             {children}
@@ -249,9 +249,10 @@ export default ({children, title = 'Comunikey', user: user, mutate: mutate}) => 
             </div>
             <footer>
                 <Box pt={4}>
-                    <Copyright/>
+                    <Copyright />
                 </Box>
             </footer>
         </React.Fragment>
     );
 };
+export default Layout;

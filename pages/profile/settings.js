@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect} from 'react';
 import Layout from '../../components/layout';
 import {useUser} from "../../lib/hooks";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import Typography from "@material-ui/core/Typography";
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import clsx from "clsx";
+import redirectTo from "../../lib/redirectTo";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -31,14 +32,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default () => {
-    const [user, {mutate}] = useUser();
-
-    return (
-        <SettingPage user={user} mutate={mutate} />
-    )
-}
-
 const ProfileSection = ({user, mutate}) => {
 
     const classes = useStyles();
@@ -48,7 +41,6 @@ const ProfileSection = ({user, mutate}) => {
     const [bio, setBio] = useState(user.bio);
     const profilePictureRef = React.createRef();
     const [msg, setMsg] = useState({message: '', isError: false});
-
 
     useEffect(() => {
         setFirstName(user.first_name);
@@ -167,7 +159,7 @@ const ProfileSection = ({user, mutate}) => {
                                    aria-describedby="bio_help" />
                             <FormHelperText id="bio_help">Fill out a Biography about yourself</FormHelperText>
                         </FormControl>
-                        <FormControl className={clsx(classes.formControl, classes.fileButton)} >
+                        <FormControl className={clsx(classes.formControl, classes.fileButton)}>
                             <InputLabel htmlFor="avatar">
                                 <Button
                                     variant="outlined"
@@ -228,20 +220,16 @@ const ProfileSection = ({user, mutate}) => {
     );
 };
 
-const SettingPage = ({user, mutate}) => {
-    if (!user) {
-        return (
-            <>
-                <p>Please sign in</p>
-            </>
-        );
-    }
+const SettingPage = () => {
+    const [user, {mutate}] = useUser();
+
     return (
         <>
             <ProfileSection user={user} mutate={mutate} />
         </>
     );
 };
+export default SettingPage;
 
 
 
