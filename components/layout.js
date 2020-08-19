@@ -139,6 +139,7 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
 
     const handleProfileMenuOpen = (event) => {
         setMenuOpen(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
 
     const handleMenuClose = () => {
@@ -152,6 +153,7 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
         aria-haspopup="true"
         onClick={handleProfileMenuOpen}
         color="inherit"
+        open={Boolean(anchorEl)}
     >
         <AccountCircle />
     </IconButton>) : null;
@@ -168,9 +170,12 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
         </>
     ) : null;
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
     const renderMenu = (user) ? (<Menu
 
         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+        anchorEl={anchorEl}
         id={menuId}
         keepMounted
         transformOrigin={{vertical: 'top', horizontal: 'right'}}
