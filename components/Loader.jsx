@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 const Loader = () => (
-    <div className="loader">
-        <style jsx>{`
+  <div className="loader">
+    <style jsx>
+      {`
       .loader {
         border: 8px solid #f3f3f3; /* Light grey */
         border-top: 8px solid #3498db; /* Blue */
@@ -22,8 +23,9 @@ const Loader = () => (
           transform: rotate(360deg);
         }
       }
-    `}</style>
-    </div>
-)
+    `}
+    </style>
+  </div>
+);
 
-export default Loader
+export default Loader;
