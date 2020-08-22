@@ -12,7 +12,7 @@ import Box from '@material-ui/core/Box';
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from './Copyright';
-import { useUser } from '../lib/hooks';
+import useUser from '../lib/hooks';
 import redirectTo from '../lib/redirectTo';
 
 const useStyles = makeStyles((theme) => ({
