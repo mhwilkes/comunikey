@@ -4,11 +4,10 @@ import Layout from '../../components/layout'
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {useUser} from "../../lib/hooks";
 import {makeStyles} from "@material-ui/core/styles";
-import redirectTo from "../../lib/redirectTo";
 import Grid from "@material-ui/core/Grid";
 import {Typography} from "@material-ui/core";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
 import Button from "@material-ui/core/Button";
+import middleware from "../../middlewares/middleware";
 
 const useStyles = makeStyles((theme) => ({
     h2: {
@@ -42,17 +41,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Profile = () => {
-    const [user, {mutate}] = useUser();
-
-    return (
-        <ProfilePage title={'Profile'} user={user} mutate={mutate} />
-    );
-
-};
-export default Profile;
-
-const ProfilePage = ({title, user, mutate}) => {
+const Profile = ({title, user}) => {
+    const {mutate} = useUser();
     const classes = useStyles();
     const {
         first_name, last_name, email, bio, profilePicture, emailVerified, contact
@@ -72,7 +62,7 @@ const ProfilePage = ({title, user, mutate}) => {
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
                             {profilePicture ? (
-                                <img className={classes.img} src={profilePicture} width="256" height="256" alt={name} />
+                                <img className={classes.img} src={profilePicture} width="256" height="256" alt={"user_profile_avatar"} />
                             ) : null}
                         </Grid>
                         <Grid item xs={8}>
@@ -128,3 +118,24 @@ const ProfilePage = ({title, user, mutate}) => {
         </Layout>
     );
 };
+
+export default Profile;
+
+export async function getServerSideProps(ctx) {
+    await middleware.apply(ctx.req, ctx.res);
+
+    if (!ctx.req.user) {
+        ctx.res.writeHeader(301, {Location: "/"});
+        ctx.res.end();
+        return {
+            props: {user: null}
+        }
+    }
+    const {
+        _id, first_name, last_name, email, bio, profilePicture, emailVerified, contact
+    } = ctx.req.user;
+    const _oid = _id.toString();
+    return {
+        props: {user: {_id: _oid, first_name, last_name, email, bio, profilePicture, emailVerified, contact}}
+    }
+}

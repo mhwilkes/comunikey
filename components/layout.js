@@ -123,9 +123,11 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
         });
         await mutate(null);
     }
-
     const classes = useStyles();
+
     const [open, setOpen] = React.useState(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [menu, setMenuOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -134,7 +136,7 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
         setOpen(false);
     };
 
-    const [menu, setMenuOpen] = React.useState(false);
+
     const menuId = 'profile-menu';
 
     const handleProfileMenuOpen = (event) => {
@@ -169,8 +171,6 @@ const Layout = ({children, title = 'Comunikey', user, mutate}) => {
             </Link>
         </>
     ) : null;
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
 
     const renderMenu = (user) ? (<Menu
 

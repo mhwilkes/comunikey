@@ -17,6 +17,7 @@ import {useUser} from '../lib/hooks'
 import Box from "@material-ui/core/Box";
 import Copyright from "../components/Copyright";
 import {useRouter} from "next/router";
+import middleware from "../middlewares/middleware";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -194,4 +195,24 @@ export default function SignUpSide() {
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
         </Grid>
     );
+}
+
+export async function getServerSideProps(ctx) {
+    await middleware.apply(ctx.req, ctx.res);
+
+    if (ctx.req.user) {
+        ctx.res.writeHeader(301, {Location: "/"});
+        ctx.res.end();
+        const {
+            _id, first_name, last_name, email, bio, profilePicture, emailVerified, contact
+        } = ctx.req.user;
+        const _oid = _id.toString();
+        return {
+            props: {user: {_id: _oid, first_name, last_name, email, bio, profilePicture, emailVerified, contact}}
+        }
+    }
+
+    return {
+        props: {user: null}
+    }
 }

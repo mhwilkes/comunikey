@@ -16,6 +16,8 @@ import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router';
 import {useUser} from '../lib/hooks'
 import Copyright from "../components/Copyright";
+import middleware from "../middlewares/middleware";
+import redirectTo from "../lib/redirectTo";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,8 +58,9 @@ export default function SignInSide() {
     const [user, {mutate}] = useUser();
 
     useEffect(() => {
-        router.prefetch('/');
-    }, []);
+        // redirect to home if user is authenticated
+        if (user) redirectTo("/");
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -73,7 +76,7 @@ export default function SignInSide() {
         if (res.status === 200) {
             const userObj = await res.json();
             await mutate(userObj);
-            await router.push("/");
+
         } else {
             setErrorMsg('Incorrect username or password. Try again!');
         }
@@ -149,3 +152,24 @@ export default function SignInSide() {
         </Grid>
     );
 }
+
+export async function getServerSideProps(ctx) {
+    await middleware.apply(ctx.req, ctx.res);
+
+    if (ctx.req.user) {
+        ctx.res.writeHeader(301, {Location: "/"});
+        ctx.res.end();
+        const {
+            _id, first_name, last_name, email, bio, profilePicture, emailVerified, contact
+        } = ctx.req.user;
+        const _oid = _id.toString();
+        return {
+            props: {user: {_id: _oid, first_name, last_name, email, bio, profilePicture, emailVerified, contact}}
+        }
+    }
+
+    return {
+        props: {user: null}
+    }
+}
+
